@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
         //Gets the timer object
         timer = FindObjectOfType<Timer>();
         //Starts the timer
-        timer.StartTimer();
+        timer.StartTimer(); 
     }
     void FixedUpdate()
     {
@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour
 
         Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical);
         rb.AddForce(movement * speed);
+
+       
 
     }
 
