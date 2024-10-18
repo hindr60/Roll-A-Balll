@@ -15,7 +15,7 @@ public class Rotator : MonoBehaviour
 
     void Update()
     {
-        //Rotate the object
+        //Rotates the object 
         transform.Rotate(rotationValue * Time.deltaTime * speed); //The new vector determines the direction it is spinning. 
 
         transform.position = new Vector3(transform.position.x,originalY + ((float)Math.Sin(Time.time) * floatStrength ),transform.position.z);

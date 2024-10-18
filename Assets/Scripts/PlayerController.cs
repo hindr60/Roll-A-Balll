@@ -25,10 +25,14 @@ public class PlayerController : MonoBehaviour
     }
     void FixedUpdate()
     {
+        //Store the horizontal axis value in a float
         float moveHorizontal = Input.GetAxis("Horizontal");
+        //Store the vertical axis in a float
         float moveVertical = Input.GetAxis("Vertical");
 
         Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical);
+
+        //Adds force to the rigidbody component
         rb.AddForce(movement * speed);
 
        
@@ -41,11 +45,13 @@ public class PlayerController : MonoBehaviour
         {
             //Destroy the collided object
             Destroy(other.gameObject);
+            //Determines the pickup count
             pickupCount--;
             //Run the CheckPickups function again
             CheckPickups();
         }
     }
+
     private void CheckPickups()
     {
         print("Pickups left: " + pickupCount);

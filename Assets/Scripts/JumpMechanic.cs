@@ -18,9 +18,10 @@ public class JumpMechanic : MonoBehaviour
     void Update()
     {
         //When the space bar is pressed, the force will push the ball to move up into the air.
+        //The && represents if both situations are true then perform these actions. (Logical AND)
         if (Input.GetButtonDown("Jump") && playerIsOnGround)
         {
-            //This code will only work if the player is off the ground.
+            //This code will only work if the player is off the ground, adding a force to the player.
             rb.AddForce(new Vector3(0, 3, 0), ForceMode.Impulse);
             playerIsOnGround = false;
         }

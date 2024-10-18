@@ -26,7 +26,7 @@ public class Timer : MonoBehaviour
         isTiming = true;
     }
     public void StopTimer()
-    {
+    { 
         isTiming = false;
     }
 }
