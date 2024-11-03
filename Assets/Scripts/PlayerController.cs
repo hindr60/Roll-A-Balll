@@ -1,28 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
     public float speed = 1f;
     private int pickupCount;
-    private Timer timer;
+    private int totalPickups;
+    public Timer timer;
+    private bool gameOver = false;
+
+    [Header("UI")]
+    public GameObject inGamePanel;
+    public TMP_Text pickupText;
+    public TMP_Text timerText;
+    public GameObject winPanel;
+    public TMP_Text winTimeText;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         //Gets the rigidbody component attached to this game object
         rb = GetComponent<Rigidbody>();
         //Get ther number of pickups in our scene
         pickupCount = GameObject.FindGameObjectsWithTag("Pickup").Length;
+        //Assign the total amount of pickups
+        totalPickups = pickupCount;
         //Run the CheckPickups function
         CheckPickups();
         //Gets the timer object
-        timer = FindObjectOfType<Timer>();
+        timer = gameObject.GetComponent<Timer>();
+       //timer = FindObjectOfType<Timer>();
         //Starts the timer
-        timer.StartTimer(); 
+        timer.StartTimer();
+
+        //Turn off our win panel
+        winPanel.SetActive(false);
+        //Turn on our in game panel
+        inGamePanel.SetActive(true);
     }
+
+    private void Update()
+    {
+        if (timerText != null)
+        {
+            timerText.text = "Timer: " + timer.GetTime().ToString("F2");
+        }
+        else
+        {
+            Debug.Log("Timer not found");
+        }
+            
+    }
+
     void FixedUpdate()
     {
         //Store the horizontal axis value in a float
@@ -54,7 +87,9 @@ public class PlayerController : MonoBehaviour
 
     private void CheckPickups()
     {
-        print("Pickups left: " + pickupCount);
+        pickupText.text = "Pickups left: " + pickupCount.ToString();
+        pickupText.color = Color.white;
+        pickupText.fontSize += 7;
         if(pickupCount == 0)
         {
             WinGame();
@@ -62,7 +97,27 @@ public class PlayerController : MonoBehaviour
     }
     private void WinGame()
     {
+        //Set our game over to be true
+        gameOver = true;
+        //Stops the timer
         timer.StopTimer();
-        print("Yipee! You win. Your time was: " + timer.GetTime().ToString("F2"));
+
+        //Display the timer on our win time text
+        winTimeText.text = "Your time was: " + timer.GetTime().ToString("F2");
+
+        //Turn off the in game panel
+        inGamePanel.SetActive(false);
+        //Turn on the win panel
+        winPanel.SetActive(true);
+
+        //Stop the ball from rolling
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+ 
+    }
+    
+    public void ResetGame()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 }

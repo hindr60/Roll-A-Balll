@@ -5,7 +5,7 @@ using UnityEngine;
 public class Timer : MonoBehaviour
 {
     public float currentTime;
-    private bool isTiming;
+    public bool isTiming;
  
     void Update()
     {
