@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class JumpMechanic : MonoBehaviour
 {
-    public float speed = 10f;
+    public float jumpForce = 10f;
     public Rigidbody rb;
     public bool playerIsOnGround = true;
 
@@ -22,7 +22,7 @@ public class JumpMechanic : MonoBehaviour
         if (Input.GetButtonDown("Jump") && playerIsOnGround)
         {
             //This code will only work if the player is off the ground, adding a force to the player.
-            rb.AddForce(new Vector3(0, 3, 0), ForceMode.Impulse);
+            rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
             playerIsOnGround = false;
         }
 
@@ -32,7 +32,7 @@ public class JumpMechanic : MonoBehaviour
         ///This logic prevents the player from jumping repeatedly into the air. It only works once. The variable of playerIsOnGround 
         ///determines the state of the player, whether it is in the air or not and applies the force only when the condition is true. 
 
-        if(collision.gameObject.name == "Floor")
+        if(collision.gameObject.tag == "Floor")
         {
             playerIsOnGround = true;
         }
