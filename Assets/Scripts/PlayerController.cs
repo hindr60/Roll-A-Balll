@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,7 +10,6 @@ public class PlayerController : MonoBehaviour
     private int pickupCount;
     private int totalPickups;
     public Timer timer;
-    private bool gameOver = false;
 
     [Header("UI")]
     public GameObject inGamePanel;
@@ -97,8 +95,6 @@ public class PlayerController : MonoBehaviour
     }
     private void WinGame()
     {
-        //Set our game over to be true
-        gameOver = true;
         //Stops the timer
         timer.StopTimer();
 
