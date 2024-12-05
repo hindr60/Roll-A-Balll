@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     bool resetting = false;
     Color originalColour;
     public Transform _camTransform;
+    public CursorController cursorController;
 
     // All controllers.
     Timer timer;
@@ -171,7 +172,9 @@ public class PlayerController : MonoBehaviour
         //Stop the ball from rolling.
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
- 
+
+        cameraController.enabled = false;
+
     }
     
     public void ResetGame()

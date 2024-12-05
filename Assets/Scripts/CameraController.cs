@@ -11,13 +11,14 @@ public class CameraController : MonoBehaviour
     public CameraStyle cameraStyle;
     public Transform pivot;
     public float rotationSpeed = 1f;
-
+    public bool isPaused { get; set; }
 
     private Vector3 offset;
-    private Vector3 pivotOffset; 
+    private Vector3 pivotOffset;
 
+   
 
-    void Start()
+     void Start()
     {
         pivotOffset = pivot.position - player.transform.position;
         //Set the offset of the camera based on the player's position
@@ -28,6 +29,7 @@ public class CameraController : MonoBehaviour
     
     void LateUpdate()
     {
+
         if (cameraStyle == CameraStyle.Fixed)
         {
             //Make the transform position of the camera follow the players transform position
@@ -43,4 +45,5 @@ public class CameraController : MonoBehaviour
             transform.LookAt(pivot);
         }
     }
+
 }

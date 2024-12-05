@@ -3,6 +3,8 @@ using UnityEngine;
 public class Pause : MonoBehaviour
 {
     public GameObject pausePanel;
+    public CameraController cameraScript;
+    public CursorController cursorController;
     // By default sets the isPaused action to false.
     bool isPaused = false;
 
@@ -32,12 +34,14 @@ public class Pause : MonoBehaviour
             // Sets to show the pause panel an stop time completely in the game, pausing everything.
             pausePanel.SetActive(true);
             Time.timeScale = 0;
+            cameraScript.enabled = false;
         }
         else
         {
             // If it hasnt been pressed it will resume as normal, pause panel off and the time running normal.
             pausePanel.SetActive(false);
             Time.timeScale = 1;
+            cameraScript.enabled = true;
         }
     }
 
