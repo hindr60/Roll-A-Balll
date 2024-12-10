@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     // All controllers.
     Timer timer;
     CameraController cameraController;
+    SoundController soundController;
 
     [Header("UI")]
     public GameObject inGamePanel;
@@ -48,6 +49,7 @@ public class PlayerController : MonoBehaviour
         originalColour = GetComponent<Renderer>().material.color;
 
         cameraController = FindObjectOfType<CameraController>();
+        soundController = FindObjectOfType<SoundController>();
 
         //Turn off our win panel.
         winPanel.SetActive(false);
@@ -110,6 +112,7 @@ public class PlayerController : MonoBehaviour
             pickupCount--;
             //Run the CheckPickups function again.
             CheckPickups();
+            soundController.PlayPickupSound();
         }
     }
 
@@ -154,10 +157,12 @@ public class PlayerController : MonoBehaviour
         if(pickupCount == 0)
         {
             WinGame();
+            
         }
     }
     private void WinGame()
     {
+        
         //Stops the timer.
         timer.StopTimer();
 
@@ -174,6 +179,7 @@ public class PlayerController : MonoBehaviour
         rb.angularVelocity = Vector3.zero;
 
         cameraController.enabled = false;
+        soundController.PlayWinSound();
 
     }
     
