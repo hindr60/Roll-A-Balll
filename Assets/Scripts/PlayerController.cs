@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     Timer timer;
     CameraController cameraController;
     SoundController soundController;
+    GameController gameController;
 
     [Header("UI")]
     public GameObject inGamePanel;
@@ -33,6 +34,9 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        //Starts the timer.
+        timer.StartTimer();
+
         //Gets the rigidbody component attached to this game object.
         rb = GetComponent<Rigidbody>();
         //Get ther number of pickups in our scene.
@@ -43,13 +47,20 @@ public class PlayerController : MonoBehaviour
         CheckPickups();
         //Gets the timer object.
         timer = gameObject.GetComponent<Timer>();
-        //Starts the timer.
-        timer.StartTimer();
+
+        
+
         resetPoint = GameObject.Find("Reset Point");
         originalColour = GetComponent<Renderer>().material.color;
 
         cameraController = FindObjectOfType<CameraController>();
         soundController = FindObjectOfType<SoundController>();
+
+        gameController = FindObjectOfType<GameController>();
+        timer = FindObjectOfType<Timer>();
+
+        if (gameController.gameType == GameType.SpeedRun)
+            StartCoroutine(timer.StartCountdown());
 
         //Turn off our win panel.
         winPanel.SetActive(false);
@@ -98,7 +109,8 @@ public class PlayerController : MonoBehaviour
             transform.eulerAngles = Camera.main.transform.eulerAngles;
             movement = transform.TransformDirection(movement);
         }
-       
+        if (!(gameController.gameType != GameType.SpeedRun && timer.IsTiming()))
+            return;
 
     }
 
@@ -180,6 +192,9 @@ public class PlayerController : MonoBehaviour
 
         cameraController.enabled = false;
         soundController.PlayWinSound();
+
+        if (gameController.gameType == GameType.SpeedRun)
+            timer.StopTimer();
 
     }
     

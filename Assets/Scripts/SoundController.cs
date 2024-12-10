@@ -5,7 +5,8 @@ public class SoundController : MonoBehaviour
     public AudioClip pickupSound;
     public AudioClip winSound;
 
-    AudioSource audioSource;
+    public AudioSource audioSource;
+    public AudioSource audioSource2;
 
     private void Start()
     {
@@ -14,20 +15,20 @@ public class SoundController : MonoBehaviour
 
     public void PlayPickupSound()
     {
-        PlaySound(pickupSound);
+        PlaySound(pickupSound, audioSource);
     }
 
     public void PlayWinSound()
     {
-        PlaySound(winSound);
+        PlaySound(winSound, audioSource2);
     }
     
-    void PlaySound(AudioClip _newSound)
+    void PlaySound(AudioClip _newSound, AudioSource _audioSource)
     {
         // This sets the audio sources audio clip to be passed in sound
-        audioSource.clip = _newSound;
+        _audioSource.clip = _newSound;
         // This then plays the audiosource
-        audioSource.Play();
+        _audioSource.Play();
     }
 
 }
