@@ -34,8 +34,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        //Starts the timer.
-        timer.StartTimer();
+      
 
         //Gets the rigidbody component attached to this game object.
         rb = GetComponent<Rigidbody>();
@@ -47,8 +46,9 @@ public class PlayerController : MonoBehaviour
         CheckPickups();
         //Gets the timer object.
         timer = gameObject.GetComponent<Timer>();
-
-        
+        //Starts the timer.
+        //timer.StartTimer();
+ 
 
         resetPoint = GameObject.Find("Reset Point");
         originalColour = GetComponent<Renderer>().material.color;
@@ -57,10 +57,14 @@ public class PlayerController : MonoBehaviour
         soundController = FindObjectOfType<SoundController>();
 
         gameController = FindObjectOfType<GameController>();
-        timer = FindObjectOfType<Timer>();
+        //timer = FindObjectOfType<Timer>();
 
         if (gameController.gameType == GameType.SpeedRun)
             StartCoroutine(timer.StartCountdown());
+        else
+        {
+            timer.StartTimer();
+        }
 
         //Turn off our win panel.
         winPanel.SetActive(false);
@@ -73,11 +77,9 @@ public class PlayerController : MonoBehaviour
         if (timerText != null)
         {
             timerText.text = "Timer: " + timer.GetTime().ToString("F2");
+            
         }
-        else
-        {
-            Debug.Log("Timer not found");
-        }
+        
             
     }
 
@@ -86,29 +88,34 @@ public class PlayerController : MonoBehaviour
         if (resetting)
             return;
 
-
-        //Store the horizontal axis value in a float.
-        float moveHorizontal = Input.GetAxis("Horizontal");
-      
-
-        //Store the vertical axis in a float.
-        float moveVertical = Input.GetAxis("Vertical");
-
-        // Allows for the player to move depending on the rotation of the camera.
-        Vector3 right = _camTransform.right * moveHorizontal;
-        Vector3 forward = _camTransform.forward * moveVertical;
-
-        Vector3 movement = right + forward;
-        
-
-        //Adds force to the rigidbody component.
-        rb.AddForce(movement * speed);
-
-        if (cameraController.cameraStyle == CameraStyle.Free)
+        if(timer.timing == true)
         {
-            transform.eulerAngles = Camera.main.transform.eulerAngles;
-            movement = transform.TransformDirection(movement);
+            //Store the horizontal axis value in a float.
+            float moveHorizontal = Input.GetAxis("Horizontal");
+
+            //Store the vertical axis in a float.
+            float moveVertical = Input.GetAxis("Vertical");
+
+            // Allows for the player to move depending on the rotation of the camera.
+            Vector3 right = _camTransform.right * moveHorizontal;
+            Vector3 forward = _camTransform.forward * moveVertical;
+
+            Vector3 movement = right + forward;
+
+            //Adds force to the rigidbody component.
+            rb.AddForce(movement * speed);
+
+            if (cameraController.cameraStyle == CameraStyle.Free)
+            {
+                transform.eulerAngles = Camera.main.transform.eulerAngles;
+                movement = transform.TransformDirection(movement);
+            }
         }
+
+       
+
+
+        
         if (!(gameController.gameType != GameType.SpeedRun && timer.IsTiming()))
             return;
 

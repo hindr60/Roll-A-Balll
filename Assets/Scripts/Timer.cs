@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    float currentTime;
+    public float currentTime;
     float bestTime;
-    bool timing = false;
+    public bool timing = false;
 
     SceneController sceneController;
 
@@ -28,7 +28,7 @@ public class Timer : MonoBehaviour
     {
         timesPanel.SetActive(false);
         countdownPanel.SetActive(false);
-        timerText.text = "";
+        //timerText.text = "";
         sceneController = FindObjectOfType<SceneController>();
      
     }
@@ -55,6 +55,7 @@ public class Timer : MonoBehaviour
     }
     void Update()
     {
+     
        if(timing)
         {
             currentTime += Time.deltaTime;
