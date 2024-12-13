@@ -8,6 +8,7 @@ TagManager:
   - Floor
   - Wall
   - Ramp
+  - Bowling Pin
   layers:
   - Default
   - TransparentFX

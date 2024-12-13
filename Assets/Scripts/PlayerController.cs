@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     public TMP_Text timerText;
     public GameObject winPanel;
     public TMP_Text winTimeText;
-
+    private int count;
 
     private void Start()
     {
@@ -39,7 +39,8 @@ public class PlayerController : MonoBehaviour
         //Gets the rigidbody component attached to this game object.
         rb = GetComponent<Rigidbody>();
         //Get ther number of pickups in our scene.
-        pickupCount = GameObject.FindGameObjectsWithTag("Pickup").Length;
+        pickupCount = GameObject.FindGameObjectsWithTag("Pickup").Length 
+                    + GameObject.FindGameObjectsWithTag("Bowling Pin").Length;
         //Assign the total amount of pickups.
         totalPickups = pickupCount;
         //Run the CheckPickups function.
@@ -112,9 +113,6 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-       
-
-
         
         if (!(gameController.gameType != GameType.SpeedRun && timer.IsTiming()))
             return;
@@ -125,6 +123,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "Pickup") 
         {
+            other.GetComponent<Particles>().CreateParticles();
             //Destroy the collided object.
             Destroy(other.gameObject);
             //Determines the pickup count.
@@ -132,6 +131,7 @@ public class PlayerController : MonoBehaviour
             //Run the CheckPickups function again.
             CheckPickups();
             soundController.PlayPickupSound();
+
         }
     }
 
@@ -204,7 +204,18 @@ public class PlayerController : MonoBehaviour
             timer.StopTimer();
 
     }
-    
+    public void PinFall()
+    {
+        count += 1;
+        soundController.PlayPickupSound();
+
+    }
+
+    private void SetCountText()
+    {
+        throw new NotImplementedException();
+    }
+
     public void ResetGame()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
